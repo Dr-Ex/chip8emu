@@ -9,7 +9,7 @@ class Display:
 		self.scaling_factor = scale
 
 		# Screen buffer for displaying image
-		self.buffer = numpy.empty(self.screen_width*self.screen_height, dtype=numpy.bool)
+		self.buffer = [[False for x in range(self.screen_width)] for x in range(self.screen_height)]
 
 		# Initialise Pygame and the display window
 		# As the resolution is small, we draw to a 
@@ -36,14 +36,12 @@ class Display:
 		elif (y < 0):
 			y += self.screen_height
 
-		pixelLoc = x + (y * self.screen_width)
+		self.buffer[y][x] = not self.buffer[y][x]
 
-		self.buffer[pixelLoc] ^ 1
-
-		return not self.buffer[pixelLoc]
+		return not self.buffer[y][x]
 
 	def clear(self):
-		self.buffer = numpy.empty(self.screen_width*self.screen_height, dtype=numpy.bool)
+		self.buffer = [[False for x in range(self.screen_width)] for x in range(self.screen_height)]
 
 	def render(self):
 		for event in pygame.event.get():
@@ -54,23 +52,19 @@ class Display:
 		print(len(self.buffer))
 
 		for i in range(len(self.buffer)):
-			x = int((i % self.screen_width) * self.scaling_factor)
+			for j in range(len(self.buffer[i])):
 
-			y = int(numpy.floor(i / self.screen_width) * self.scaling_factor)
-
-			if (self.buffer[i]):
-				print("drawing pixel", x, y)
-				pygame.draw.rect(self.screen, (255, 255, 255), (x, y, self.scaling_factor, self.scaling_factor))
+				if self.buffer[i][j]:
+					print("drawing pixel", j, i)
+					pygame.draw.rect(self.screen, (255, 255, 255), (j, i, 1, 1))
 			
-		print(self.buffer)
 		# Scale the screen surface to the window
 		self.window.blit(pygame.transform.scale(self.screen, self.window.get_rect().size), (0, 0))
 		pygame.display.update()
 
 	def testRender(self):
-		return True
-		#self.setPixel(0, 0)
-		#self.setPixel(5, 2)
+		self.setPixel(0, 0)
+		self.setPixel(5, 2)
 
 	def close(self):
 		pygame.quit()
