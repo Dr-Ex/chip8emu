@@ -5,8 +5,8 @@ Following this tutorial: https://www.freecodecamp.org/news/creating-your-very-ow
 ## TODO
 (in no particular order)
 - Test renderer more
-- Implement input
-- Implement sound
+- Implement input   } Using pygame?
+- Implement sound   }
 - Timing of main
 - Instructions
 - Clear screen at beginning of render cycle?
