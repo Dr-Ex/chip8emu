@@ -253,7 +253,20 @@ class CPU:
 				self.v[x] = rand & (opcode & 0xFF)
 
 			def DRW():
-				continue
+				width = 8
+				height = (opcode & 0xF)
+
+				self.v[0xF] = 0
+
+				for row in range(height):
+					sprite = self.memory[self.i + row]
+
+					for col in range(width):
+						if ((sprite & 0x80) > 0):
+							if (self.renderer.setPixel(self.v[x] + col, self.v[y] + row)):
+								self.v[0xF] = 1
+
+						sprite = sprite << 1
 
 			def eSwitch():
 				switch0xE = {
@@ -287,7 +300,9 @@ class CPU:
 					self.v[x] = self.DT
 
 				def LDk():
-					continue
+					self.paused = True
+
+					self.keyboard.onNextPress = function(key)
 
 				def LDdtx():
 					self.DT = self.v[x]

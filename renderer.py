@@ -2,8 +2,11 @@ import pygame
 import numpy
 
 class Display:
-	def __init__(self, scale):
+	def __init__(self, scale, keyboard, speaker):
 		self.running = False
+
+		self.keyboard = keyboard
+		self.speaker = speaker
 
 		self.screen_width, self.screen_height = 64, 32
 		self.scaling_factor = scale
@@ -47,6 +50,10 @@ class Display:
 		for event in pygame.event.get():
 			if event.type == pygame.QUIT:
 				self.running = False
+			if event.type == pygame.KEYDOWN:
+				self.keyboard.onKeyDown(pygame.key.get_pressed())
+			if event.type == pygame.KEYUP:
+				self.keyboard.onKeyUp(pygame.key.get_pressed())
 
 		#dont forget to clear screen
 		print(len(self.buffer))

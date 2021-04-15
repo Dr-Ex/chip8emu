@@ -8,11 +8,11 @@ Following this tutorial: https://www.freecodecamp.org/news/creating-your-very-ow
 - Implement input   } Using pygame?
 - Implement sound   }
 - Timing of main
-- Instructions
 - Clear screen at beginning of render cycle?
 - Test overflow result of ADDa and SUB (Uint8 array in javascript overflow comparison with numpy ubyte array?)
 - Check RND, LDbx
-- Implement DRW, SKP, SKNP
+- Implement SKP, SKNP
+- Fix KEYUP
 
 ## Resources Used
 - https://stackoverflow.com/questions/54040397/pygame-rescale-pixel-size
