@@ -19,6 +19,7 @@ class Display:
 											   self.screen_height*self.scaling_factor))
 
 		self.screen = pygame.Surface((self.screen_width, self.screen_height))
+		print("Display Initialised.")
 
 
 	def isRunning(self):
@@ -51,7 +52,7 @@ class Display:
 				self.running = False
 
 		#dont forget to clear screen
-		print(len(self.buffer))
+		#print(len(self.buffer))
 
 		for i in range(len(self.buffer)):
 			x = int((i % self.screen_width) * self.scaling_factor)
@@ -62,7 +63,7 @@ class Display:
 				print("drawing pixel", x, y)
 				pygame.draw.rect(self.screen, (255, 255, 255), (x, y, self.scaling_factor, self.scaling_factor))
 			
-		print(self.buffer)
+		#print(self.buffer)
 		# Scale the screen surface to the window
 		self.window.blit(pygame.transform.scale(self.screen, self.window.get_rect().size), (0, 0))
 		pygame.display.update()

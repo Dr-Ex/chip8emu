@@ -12,10 +12,13 @@ def main():
 	cpu = CPU(renderer, keyboard, speaker)
 
 	# First argument should be the rom path
-	rom_path = sys.argv[1]
-
+	try:
+		rom_path = sys.argv[1]
+	except IndexError:
+		print("Please enter a path")
+		exit()
 	# Load the rom into memory
-	CPU
+	cpu.loadRom(rom_path)
 
 	then = time.perf_counter()
 
@@ -30,7 +33,7 @@ def main():
 		elapsed = now - then
 
 		if (elapsed > fpsInterval):
-			CPU.cycle()
+			cpu.cycle()
 
 
 
