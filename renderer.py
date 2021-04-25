@@ -50,19 +50,19 @@ class Display:
 		for event in pygame.event.get():
 			if event.type == pygame.QUIT:
 				self.running = False
-			if event.type == pygame.KEYDOWN:
-				self.keyboard.onKeyDown(pygame.key.get_pressed())
-			if event.type == pygame.KEYUP:
-				self.keyboard.onKeyUp(pygame.key.get_pressed())
+			# if event.type == pygame.KEYDOWN:
+			# 	self.keyboard.onKeyDown(pygame.key.get_pressed())
+			# if event.type == pygame.KEYUP:
+			# 	self.keyboard.onKeyUp(pygame.key.get_pressed())
 
 		#dont forget to clear screen
-		print(len(self.buffer))
+		#print(len(self.buffer))
 
 		for i in range(len(self.buffer)):
 			for j in range(len(self.buffer[i])):
 
 				if self.buffer[i][j]:
-					print("drawing pixel", j, i)
+					#print("drawing pixel", j, i)
 					pygame.draw.rect(self.screen, (255, 255, 255), (j, i, 1, 1))
 			
 		# Scale the screen surface to the window

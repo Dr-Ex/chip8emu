@@ -102,6 +102,7 @@ class CPU:
 		return False
 
 	def executeInstruction(self, opcode):
+		print("EXEC:", opcode)
 		# Each instruction is 2 bytes long
 		# Inc PC by 2
 		self.PC += 2
@@ -274,10 +275,10 @@ class CPU:
 				self.vReg[x] = self.DT
 
 			def LDk():
-				
 				self.paused = True
-
-				self.keyboard.onNextPress(pygame.event.get())
+				for event in pygame.event.get():
+					if event.type == pygame.KEYDOWN:
+						self.paused = not self.keyboard.onNextPress(event.key)
 
 			def LDdtx():
 				self.DT = self.vReg[x]
