@@ -169,7 +169,7 @@ class CPU:
 				self.vReg[x] = self.vReg[x] ^ self.vReg[y]
 
 			def ADDa():
-				sum = (self.v[x] + self.v[y])
+				sum = (self.vReg[x] + self.vReg[y])
 				self.vReg[x] = self.vReg[x] + self.vReg[y]
 
 				self.vReg[0xF] = 0
@@ -274,9 +274,10 @@ class CPU:
 				self.vReg[x] = self.DT
 
 			def LDk():
+				
 				self.paused = True
 
-				self.keyboard.onNextPress = function(key)
+				self.keyboard.onNextPress(pygame.event.get())
 
 			def LDdtx():
 				self.DT = self.vReg[x]

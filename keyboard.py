@@ -28,6 +28,7 @@ class Keyboard:
 
 	def onKeyDown(self, event):
 		for key in event:
+			print(key)
 			key = self.KEYMAP[key]
 			self.keysPressed[key] = True
 
