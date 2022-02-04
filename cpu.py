@@ -1,10 +1,11 @@
 import numpy
 
 class CPU:
-	def __init__(self, renderer, keyboard, speaker):
+	def __init__(self, renderer, keyboard, speaker, debug=True):
 		self.renderer = renderer
 		self.keyboard = keyboard
 		self.speaker = speaker
+		self.debug = debug
 
 		# 4k Memory
 		self.memory = numpy.empty(4096, dtype=numpy.ubyte)
@@ -116,10 +117,14 @@ class CPU:
 
 		def zeroSwitch():
 			def CLS():
+				if self.debug:
+					print("CLS")
 				# Clear the screen
 				self.renderer.clear()
 
 			def RET():
+				if self.debug:
+					print("RET")
 				# pop item from stack and store in PC
 				self.PC = self.stack.pop()
 
@@ -132,44 +137,68 @@ class CPU:
 			operation()
 
 		def JP():
+			if self.debug:
+					print("JP")
 			self.PC = (opcode & 0xFFF)
 
 		def CALL():
+			if self.debug:
+					print("CALL")
 			self.stack.append(self.PC)
 			self.PC = (opcode & 0xFFF)
 
 		def SE():
+			if self.debug:
+					print("SE")
 			if (self.vReg[x] == (opcode & 0xFF)):
 				self.PC += 2
 
 		def SNE():
+			if self.debug:
+					print("SNE")
 			if (self.vReg[x] != (opcode & 0xFF)):
 				self.PC += 2
 
 		def SEa():
+			if self.debug:
+					print("SEa")
 			if (self.vReg[x] == self.vReg[y]):
 				self.PC += 2
 
 		def LD():
+			if self.debug:
+					print("LD")
 			self.vReg[x] = (opcode & 0xFF)
 
 		def ADD():
+			if self.debug:
+					print("ADD")
 			self.vReg[x] += (opcode)
 
 		def eightSwitch():
 			def LDb():
+				if self.debug:
+					print("LDb")
 				self.vReg[x] = self.vReg[y]
 
 			def OR():
+				if self.debug:
+					print("OR")
 				self.vReg[x] = self.vReg[x] | self.vReg[y]
 
 			def AND():
+				if self.debug:
+					print("AND")
 				self.vReg[x] = self.vReg[x] & self.vReg[y]
 
 			def XOR():
+				if self.debug:
+					print("XOR")
 				self.vReg[x] = self.vReg[x] ^ self.vReg[y]
 
 			def ADDa():
+				if self.debug:
+					print("ADDa")
 				sum = (self.vReg[x] + self.vReg[y])
 				self.vReg[x] = self.vReg[x] + self.vReg[y]
 
@@ -181,6 +210,8 @@ class CPU:
 				self.vReg[x] = sum
 
 			def SUB():
+				if self.debug:
+					print("SUB")
 				self.vReg[0xF] = 0
 
 				if (self.vReg[x] > self.vReg[y]):
@@ -189,11 +220,15 @@ class CPU:
 				self.vReg[x] -= self.vReg[y]
 
 			def SHR():
+				if self.debug:
+					print("SHR")
 				self.vReg[0xF] = (self.vReg[x] & 0x1)
 
 				self.vReg[x] = self.vReg[x] >> 1
 
 			def SUBN():
+				if self.debug:
+					print("SUBN")
 				self.vReg[0xF] = 0
 
 				if (self.vReg[y] > self.vReg[x]):
@@ -202,6 +237,8 @@ class CPU:
 				self.vReg[x] = self.vReg[y] - self.vReg[x]
 
 			def SHL():
+				if self.debug:
+					print("SHL")
 				self.vReg[0xF] = (self.vReg[x] & 0x80)
 				self.vReg[x] = self.vReg[x] << 1
 
@@ -221,16 +258,24 @@ class CPU:
 			operation()
 
 		def SNEa():
+			if self.debug:
+					print("SNEa")
 			if (self.vReg[x] != self.vReg[y]):
 				self.PC += 2
 
 		def LDa():
+			if self.debug:
+					print("LDa")
 			self.iReg = (opcode & 0xFFF)
 
 		def JPa():
+			if self.debug:
+					print("JPa")
 			self.PC = (opcode & 0xFFF) + self.vReg[0]
 
 		def RND():
+			if self.debug:
+					print("RND")
 			# Generate random number 0-255 then and with
 			# lowest byte of opcode. 
 
@@ -238,6 +283,8 @@ class CPU:
 			self.vReg[x] = rand & (opcode & 0xFF)
 
 		def DRW():
+			if self.debug:
+					print("DRW")
 			width = 8
 			height = (opcode & 0xF)
 
@@ -256,9 +303,13 @@ class CPU:
 		def eSwitch():
 
 			def SKP():
+				if self.debug:
+					print("SKP")
 				return False
 
 			def SKNP():
+				if self.debug:
+					print("SKNP")
 				return False
 
 			switch0xE = {
@@ -272,27 +323,41 @@ class CPU:
 		def fSwitch():
 			
 			def LDxdt():
+				if self.debug:
+					print("LDxdt")
 				self.vReg[x] = self.DT
 
 			def LDk():
+				if self.debug:
+					print("LDk")
 				self.paused = True
 				for event in pygame.event.get():
 					if event.type == pygame.KEYDOWN:
 						self.paused = not self.keyboard.onNextPress(event.key)
 
 			def LDdtx():
+				if self.debug:
+					print("LDdtx")
 				self.DT = self.vReg[x]
 
 			def LDstx():
+				if self.debug:
+					print("LDstx")
 				self.ST = self.vReg[x]
 
 			def ADDi():
+				if self.debug:
+					print("ADDi")
 				self.iReg += self.vReg[x]
 
 			def LDfx():
+				if self.debug:
+					print("LDfx")
 				self.iReg = self.vReg[x] * 5
 
 			def LDbx():
+				if self.debug:
+					print("LDbx")
 				self.memory[self.iReg] = int(self.vReg[x] / 100)
 
 				self.memory[self.iReg + 1] = int((self.vReg[x] % 100) / 10)
@@ -300,10 +365,14 @@ class CPU:
 				self.memory[self.iReg + 2] = int(self.vReg[x] % 10)
 
 			def LDix():
+				if self.debug:
+					print("LDix")
 				for registerIndex in range(x):
 					self.memory[self.iReg + registerIndex] = self.vReg[registerIndex]
 
 			def LDxi():
+				if self.debug:
+					print("LDxi")
 				for registerIndex in range(x):
 					self.vReg[registerIndex] = self.memory[self.iReg + registerIndex]
 
