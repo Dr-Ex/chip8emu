@@ -22,7 +22,7 @@ def main():
 
 	then = time.perf_counter()
 
-	fps = 60
+	fps = 50
 	fpsInterval = 1000 // fps
 	startTime = then
 	elapsed = 0
